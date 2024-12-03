@@ -27,16 +27,16 @@ void OnReceiveImu(void)
     int n = m_e2box_imu.serial.GetLength();
     unsigned char *pBuffer = m_e2box_imu.serial.GetBuffer();
 
-    if(n>=10){
+    if(n>=1){
         for(int i=0; i<n; ++i){
             m_e2box_imu.ExtractData(pBuffer[i]);
-            if(m_e2box_imu.data_acquisition){
-                m_e2box_imu.serial.Reset();
+            if(m_e2box_imu.data_acquisition){     
                 m_e2box_imu.HandlingDataIMU();
                 m_e2box_imu.data_acquisition = false;
                 break;
             }
         }
+        m_e2box_imu.serial.Reset();
     }
 }
 
@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
     int baudrate;
 
     nh.param<std::string>("port", port, "/dev/ttyUSB0");
-    nh.param("baudrate", baudrate, 115200);
+    nh.param("baudrate", baudrate, 921600);
 
     if(!m_e2box_imu.serial.Open(const_cast<char*>(port.c_str()), baudrate)){
         cout << "device is not opened! " << endl;

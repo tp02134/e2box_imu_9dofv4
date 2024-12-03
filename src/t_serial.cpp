@@ -34,6 +34,9 @@ bool t_serial::Open(char *device, int baudrate){ // open the serial port
     newtio.c_cflag = CS8 | CLOCAL | CREAD; // CRTSCTS | CS8 | CLOCAL | CREAD;
 
     switch (baudrate) {
+    case 921600:
+        newtio.c_cflag |= B921600;
+        break;
     case 115200:
         newtio.c_cflag |= B115200;
         break;
